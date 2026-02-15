@@ -53,7 +53,8 @@ public class MainLayout extends AppLayout {
 
         if (currentUser != null) {
             Span userInfo = new Span(currentUser.username());
-            userInfo.getStyle().set("margin-left", "auto").set("margin-right", "var(--lumo-space-m)");
+            userInfo.addClassName("user-badge");
+            userInfo.getStyle().set("margin-left", "auto");
 
             Button logoutButton = new Button("Logout", VaadinIcon.SIGN_OUT.create(), e -> {
                 getUI().ifPresent(ui -> ui.getPage().setLocation("/logout"));
@@ -100,6 +101,7 @@ public class MainLayout extends AppLayout {
         newGroupButton.setWidthFull();
 
         HorizontalLayout actions = new HorizontalLayout(friendsButton, newGroupButton);
+        actions.addClassName("drawer-actions");
         actions.setWidthFull();
         actions.setPadding(true);
 

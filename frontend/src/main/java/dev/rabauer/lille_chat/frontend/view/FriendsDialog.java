@@ -172,8 +172,7 @@ public class FriendsDialog extends Dialog {
         row.setWidthFull();
         row.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         row.expand(name);
-        row.getStyle().set("padding", "var(--lumo-space-xs) 0")
-                .set("border-bottom", "1px solid var(--lumo-contrast-10pct)");
+        row.addClassName("search-result-item");
         return row;
     }
 
@@ -208,8 +207,7 @@ public class FriendsDialog extends Dialog {
         row.setWidthFull();
         row.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         row.expand(name);
-        row.getStyle().set("padding", "var(--lumo-space-xs) 0")
-                .set("border-bottom", "1px solid var(--lumo-contrast-10pct)");
+        row.addClassName("search-result-item");
         return row;
     }
 
@@ -240,8 +238,7 @@ public class FriendsDialog extends Dialog {
         row.setWidthFull();
         row.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         row.expand(info);
-        row.getStyle().set("padding", "var(--lumo-space-xs) 0")
-                .set("border-bottom", "1px solid var(--lumo-contrast-10pct)");
+        row.addClassName("search-result-item");
         return row;
     }
 }

@@ -60,10 +60,8 @@ public class ChatView extends VerticalLayout {
         setPadding(false);
         setSpacing(false);
 
-        conversationHeader.getStyle()
-                .set("padding", "var(--lumo-space-m)")
-                .set("margin", "0")
-                .set("border-bottom", "1px solid var(--lumo-contrast-10pct)");
+        conversationHeader.addClassName("chat-header");
+        conversationHeader.getStyle().set("margin", "0");
 
         messageList.setPadding(true);
         messageList.setSpacing(true);
@@ -83,10 +81,11 @@ public class ChatView extends VerticalLayout {
         messageInput.addKeyPressListener(Key.ENTER, e -> sendMessage());
 
         HorizontalLayout inputBar = new HorizontalLayout(messageInput, sendButton);
+        inputBar.addClassName("input-bar");
         inputBar.setWidthFull();
         inputBar.setPadding(true);
         inputBar.setSpacing(true);
-        inputBar.setDefaultVerticalComponentAlignment(Alignment.BASELINE);
+        inputBar.setDefaultVerticalComponentAlignment(Alignment.CENTER);
         inputBar.expand(messageInput);
 
         add(conversationHeader, scroller, inputBar);
@@ -174,36 +173,18 @@ public class ChatView extends VerticalLayout {
         boolean isOwn = currentUser != null && message.sender().id().equals(currentUser.id());
 
         Div bubble = new Div();
-        bubble.getStyle()
-                .set("padding", "var(--lumo-space-s) var(--lumo-space-m)")
-                .set("border-radius", "var(--lumo-border-radius-l)")
-                .set("max-width", "70%")
-                .set("word-wrap", "break-word");
-
-        if (isOwn) {
-            bubble.getStyle()
-                    .set("background-color", "var(--lumo-primary-color-10pct)")
-                    .set("margin-left", "auto");
-        } else {
-            bubble.getStyle()
-                    .set("background-color", "var(--lumo-contrast-5pct)")
-                    .set("margin-right", "auto");
-        }
+        bubble.addClassName("message-bubble");
+        bubble.addClassName(isOwn ? "own" : "other");
 
         Span senderName = new Span(message.sender().username());
-        senderName.getStyle()
-                .set("font-weight", "bold")
-                .set("font-size", "var(--lumo-font-size-s)");
+        senderName.addClassName("message-sender");
 
         Span content = new Span(message.content());
+        content.addClassName("message-content");
         content.getStyle().set("display", "block");
 
         Span time = new Span(TIME_FORMAT.format(message.sentAt()));
-        time.getStyle()
-                .set("font-size", "var(--lumo-font-size-xs)")
-                .set("color", "var(--lumo-secondary-text-color)")
-                .set("display", "block")
-                .set("text-align", "right");
+        time.addClassName("message-time");
 
         bubble.add(senderName, content, time);
 

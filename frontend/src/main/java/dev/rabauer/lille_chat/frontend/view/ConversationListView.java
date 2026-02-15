@@ -60,10 +60,9 @@ public class ConversationListView extends VerticalLayout {
         try {
             List<ConversationDto> conversations = conversationClientService.listConversations();
             if (conversations == null || conversations.isEmpty()) {
-                Span empty = new Span("No conversations yet");
-                empty.getStyle()
-                        .set("padding", "var(--lumo-space-m)")
-                        .set("color", "var(--lumo-secondary-text-color)");
+                Div empty = new Div();
+                empty.addClassName("empty-state");
+                empty.setText("No conversations yet");
                 add(empty);
                 return;
             }
@@ -79,16 +78,7 @@ public class ConversationListView extends VerticalLayout {
 
     private Div createConversationItem(ConversationDto conversation) {
         Div item = new Div();
-        item.getStyle()
-                .set("padding", "var(--lumo-space-s) var(--lumo-space-m)")
-                .set("cursor", "pointer")
-                .set("border-bottom", "1px solid var(--lumo-contrast-10pct)")
-                .set("transition", "background-color 0.2s");
-
-        item.getElement().addEventListener("mouseenter",
-                e -> {}).addEventData("element.style.backgroundColor='var(--lumo-contrast-5pct)'");
-        item.getElement().addEventListener("mouseleave",
-                e -> {}).addEventData("element.style.backgroundColor=''");
+        item.addClassName("conversation-item");
 
         String title = resolveConversationName(conversation);
         Span name = new Span(title);

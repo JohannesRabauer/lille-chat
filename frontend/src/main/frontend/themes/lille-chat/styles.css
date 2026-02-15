@@ -1,0 +1,385 @@
+/* Lille Chat - Modern Minimalistic Theme */
+
+/* ===== CSS Custom Properties ===== */
+html {
+  /* Primary accent - soft blue */
+  --lille-primary: #3b82f6;
+  --lille-primary-light: #60a5fa;
+  --lille-primary-dark: #2563eb;
+  --lille-primary-10: rgba(59, 130, 246, 0.1);
+  --lille-primary-20: rgba(59, 130, 246, 0.2);
+
+  /* Neutrals */
+  --lille-bg: #f8fafc;
+  --lille-surface: #ffffff;
+  --lille-border: #e2e8f0;
+  --lille-text: #1e293b;
+  --lille-text-secondary: #64748b;
+  --lille-text-muted: #94a3b8;
+
+  /* Shadows */
+  --lille-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --lille-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --lille-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --lille-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+
+  /* Transitions */
+  --lille-transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --lille-transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Border radius */
+  --lille-radius: 12px;
+  --lille-radius-sm: 8px;
+  --lille-radius-lg: 16px;
+  --lille-radius-full: 9999px;
+
+  /* Override Lumo variables */
+  --lumo-primary-color: var(--lille-primary);
+  --lumo-primary-color-50pct: var(--lille-primary-20);
+  --lumo-primary-color-10pct: var(--lille-primary-10);
+  --lumo-primary-text-color: var(--lille-primary);
+  --lumo-body-text-color: var(--lille-text);
+  --lumo-secondary-text-color: var(--lille-text-secondary);
+  --lumo-tertiary-text-color: var(--lille-text-muted);
+  --lumo-contrast-5pct: rgba(0, 0, 0, 0.03);
+  --lumo-contrast-10pct: var(--lille-border);
+  --lumo-border-radius-m: var(--lille-radius-sm);
+  --lumo-border-radius-l: var(--lille-radius);
+  --lumo-font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+/* ===== Global Styles ===== */
+body {
+  background: var(--lille-bg);
+}
+
+/* ===== App Layout ===== */
+vaadin-app-layout {
+  --vaadin-app-layout-drawer-overlay: true;
+}
+
+vaadin-app-layout::part(navbar) {
+  background: var(--lille-surface);
+  border-bottom: 1px solid var(--lille-border);
+  box-shadow: var(--lille-shadow-sm);
+  padding: 0 1rem;
+  min-height: 60px;
+}
+
+vaadin-app-layout::part(drawer) {
+  background: var(--lille-surface);
+  border-right: 1px solid var(--lille-border);
+  width: 320px;
+}
+
+/* ===== Header ===== */
+vaadin-app-layout h1 {
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+  color: var(--lille-text);
+  margin-left: 0.5rem;
+}
+
+/* ===== Drawer Toggle ===== */
+vaadin-drawer-toggle {
+  color: var(--lille-text-secondary);
+  transition: color var(--lille-transition-fast);
+}
+
+vaadin-drawer-toggle:hover {
+  color: var(--lille-primary);
+}
+
+/* ===== Buttons ===== */
+vaadin-button {
+  border-radius: var(--lille-radius-sm);
+  font-weight: 500;
+  transition: all var(--lille-transition);
+}
+
+vaadin-button[theme~="primary"] {
+  background: var(--lille-primary);
+  box-shadow: var(--lille-shadow-sm);
+}
+
+vaadin-button[theme~="primary"]:hover {
+  background: var(--lille-primary-dark);
+  box-shadow: var(--lille-shadow);
+  transform: translateY(-1px);
+}
+
+vaadin-button[theme~="tertiary"] {
+  color: var(--lille-text-secondary);
+}
+
+vaadin-button[theme~="tertiary"]:hover {
+  color: var(--lille-primary);
+  background: var(--lille-primary-10);
+}
+
+/* ===== Text Fields ===== */
+vaadin-text-field {
+  --vaadin-input-field-border-radius: var(--lille-radius-sm);
+}
+
+vaadin-text-field::part(input-field) {
+  background: var(--lille-bg);
+  border: 1px solid var(--lille-border);
+  transition: all var(--lille-transition);
+}
+
+vaadin-text-field::part(input-field):hover {
+  border-color: var(--lille-primary-light);
+}
+
+vaadin-text-field:focus-within::part(input-field) {
+  border-color: var(--lille-primary);
+  box-shadow: 0 0 0 3px var(--lille-primary-10);
+}
+
+/* ===== Conversation List ===== */
+.conversation-item {
+  padding: 0.875rem 1rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--lille-border);
+  transition: background var(--lille-transition-fast);
+  position: relative;
+}
+
+.conversation-item:hover {
+  background: var(--lille-primary-10);
+}
+
+.conversation-item.active {
+  background: var(--lille-primary-10);
+  border-left: 3px solid var(--lille-primary);
+}
+
+/* ===== Chat Messages ===== */
+.message-bubble {
+  padding: 0.75rem 1rem;
+  border-radius: var(--lille-radius);
+  max-width: 75%;
+  word-wrap: break-word;
+  box-shadow: var(--lille-shadow-sm);
+  animation: messageIn 0.2s ease-out;
+}
+
+.message-bubble.own {
+  background: linear-gradient(135deg, var(--lille-primary) 0%, var(--lille-primary-dark) 100%);
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+
+.message-bubble.other {
+  background: var(--lille-surface);
+  border: 1px solid var(--lille-border);
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
+}
+
+.message-sender {
+  font-weight: 600;
+  font-size: 0.8125rem;
+  margin-bottom: 0.25rem;
+  opacity: 0.9;
+}
+
+.message-content {
+  line-height: 1.5;
+}
+
+.message-time {
+  font-size: 0.6875rem;
+  opacity: 0.7;
+  margin-top: 0.375rem;
+  text-align: right;
+}
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Chat Header ===== */
+.chat-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--lille-border);
+  background: var(--lille-surface);
+  font-weight: 600;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+}
+
+/* ===== Input Bar ===== */
+.input-bar {
+  padding: 1rem;
+  background: var(--lille-surface);
+  border-top: 1px solid var(--lille-border);
+}
+
+.input-bar vaadin-text-field::part(input-field) {
+  background: var(--lille-bg);
+  border-radius: var(--lille-radius-full);
+  padding: 0.5rem 1rem;
+}
+
+/* ===== Dialogs ===== */
+vaadin-dialog-overlay::part(overlay) {
+  border-radius: var(--lille-radius-lg);
+  box-shadow: var(--lille-shadow-lg);
+  animation: dialogIn 0.25s ease-out;
+}
+
+vaadin-dialog-overlay::part(header) {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--lille-border);
+}
+
+vaadin-dialog-overlay::part(title) {
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+@keyframes dialogIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== Tabs ===== */
+vaadin-tabs {
+  --lumo-contrast-60pct: var(--lille-text-secondary);
+}
+
+vaadin-tab {
+  font-weight: 500;
+  transition: color var(--lille-transition-fast);
+}
+
+vaadin-tab[selected] {
+  color: var(--lille-primary);
+}
+
+vaadin-tab::before {
+  background: var(--lille-primary);
+  border-radius: 2px;
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--lille-border);
+  border-radius: var(--lille-radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--lille-text-muted);
+}
+
+/* ===== Notifications ===== */
+vaadin-notification-card {
+  border-radius: var(--lille-radius-sm);
+  box-shadow: var(--lille-shadow-md);
+}
+
+/* ===== Checkbox Group ===== */
+vaadin-checkbox-group {
+  --lumo-primary-color: var(--lille-primary);
+}
+
+vaadin-checkbox::part(checkbox) {
+  border-radius: 4px;
+}
+
+/* ===== Empty State ===== */
+.empty-state {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: var(--lille-text-muted);
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  opacity: 0.5;
+  margin-bottom: 1rem;
+}
+
+/* ===== Scroller ===== */
+vaadin-scroller {
+  background: var(--lille-bg);
+}
+
+/* ===== User Badge ===== */
+.user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  background: var(--lille-bg);
+  border-radius: var(--lille-radius-full);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--lille-text-secondary);
+}
+
+/* ===== Action Buttons in Drawer ===== */
+.drawer-actions {
+  padding: 1rem;
+  border-bottom: 1px solid var(--lille-border);
+  gap: 0.5rem;
+}
+
+.drawer-actions vaadin-button {
+  flex: 1;
+  font-size: 0.8125rem;
+}
+
+/* ===== Search Results ===== */
+.search-result-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--lille-border);
+  transition: background var(--lille-transition-fast);
+}
+
+.search-result-item:hover {
+  background: var(--lille-primary-10);
+  margin: 0 -0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  border-radius: var(--lille-radius-sm);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  vaadin-app-layout::part(drawer) {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .message-bubble {
+    max-width: 85%;
+  }
+}
