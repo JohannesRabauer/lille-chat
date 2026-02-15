@@ -30,10 +30,21 @@ services:
       KC_DB_PASSWORD: lillechat
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8180
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/lille-chat-realm.json
     ports:
       - "8180:8080"
     volumes:
       - ./keycloak/lille-chat-realm.json:/opt/keycloak/data/import/lille-chat-realm.json:ro
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /realms/lille-chat/.well-known/openid-configuration HTTP/1.1\r\nHost: localhost\r\nConnection: close\r\n\r\n' >&3 && timeout 1 cat <&3 | head -1 | grep -q '200 OK'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
     depends_on:
       postgres:
         condition: service_healthy
@@ -50,10 +61,15 @@ services:
       SPRING_DATASOURCE_PASSWORD: lillechat
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://localhost:8180/realms/lille-chat
     ports:
       - "8080:8080"
+    extra_hosts:
+      - "localhost:host-gateway"
     depends_on:
       postgres:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
 
   # --- Frontend (Vaadin Web UI) ---
@@ -65,10 +81,17 @@ services:
     environment:
       SERVER_PORT: "8080"
       LILLE_CHAT_BACKEND_URL: http://backend:8080
+      # auth-uri uses localhost (browser redirect), others use Docker network (server-side)
+      KEYCLOAK_AUTH_URI: http://localhost:8180/realms/lille-chat/protocol/openid-connect/auth
+      KEYCLOAK_TOKEN_URI: http://keycloak:8080/realms/lille-chat/protocol/openid-connect/token
+      KEYCLOAK_JWK_URI: http://keycloak:8080/realms/lille-chat/protocol/openid-connect/certs
     ports:
       - "8081:8080"
     depends_on:
-      - backend
+      backend:
+        condition: service_started
+      keycloak:
+        condition: service_healthy
 
 volumes:
   postgres-data:
