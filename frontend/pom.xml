@@ -12,7 +12,7 @@
 	<artifactId>frontend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>frontend</name>
-	<description>Backend of minimalistic chat application</description>
+	<description>Frontend of minimalistic chat application</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -39,6 +39,14 @@
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
 		<dependency>
