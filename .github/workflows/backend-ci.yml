@@ -38,6 +38,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Make Maven wrapper executable
+        run: chmod +x ./mvnw
+
       - name: Build and test
         run: ./mvnw clean verify -B
 
@@ -82,6 +85,9 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('backend/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+
+      - name: Make Maven wrapper executable
+        run: chmod +x ./mvnw
 
       - name: Run Checkstyle
         run: ./mvnw checkstyle:check -B
