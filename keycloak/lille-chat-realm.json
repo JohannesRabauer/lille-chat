@@ -50,8 +50,8 @@
       "credentials": [
         {
           "type": "password",
-          "value": "alice123",
-          "temporary": false
+          "userLabel": "My password",
+          "value": "alice123"
         }
       ],
       "realmRoles": ["user"]
@@ -66,8 +66,8 @@
       "credentials": [
         {
           "type": "password",
-          "value": "bob123",
-          "temporary": false
+          "userLabel": "My password",
+          "value": "bob123"
         }
       ],
       "realmRoles": ["user", "admin"]
