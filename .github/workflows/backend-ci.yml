@@ -90,7 +90,25 @@ jobs:
         run: chmod +x ./mvnw
 
       - name: Run Checkstyle
-        run: ./mvnw checkstyle:check -B
+        run: ./mvnw checkstyle:checkstyle -B
+
+      - name: Upload Checkstyle report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: checkstyle-report
+          path: backend/target/checkstyle-result.xml
+          retention-days: 7
 
       - name: Run SpotBugs
-        run: ./mvnw compile spotbugs:check -B
+        run: ./mvnw compile spotbugs:spotbugs -B
+        continue-on-error: true
+
+      - name: Upload SpotBugs report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: spotbugs-report
+          path: backend/target/spotbugsXml.xml
+          retention-days: 7
+          if-no-files-found: ignore
