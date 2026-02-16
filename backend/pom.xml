@@ -31,6 +31,7 @@
 		<checkstyle.version>10.21.4</checkstyle.version>
 		<maven-checkstyle-plugin.version>3.6.0</maven-checkstyle-plugin.version>
 		<spotbugs-maven-plugin.version>4.9.3.0</spotbugs-maven-plugin.version>
+		<pmd-maven-plugin.version>3.26.0</pmd-maven-plugin.version>
 		<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
 		<jacoco.line.coverage>0.60</jacoco.line.coverage>
 		<jacoco.branch.coverage>0.50</jacoco.branch.coverage>
@@ -112,20 +113,22 @@
 				</configuration>
 			</plugin>
 
-			<!-- SpotBugs - Bug detection via bytecode analysis -->
-			<!-- Skipped: SpotBugs does not yet support Java 25 bytecode -->
+			<!-- PMD - Source code analyzer for potential bugs -->
 			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>${spotbugs-maven-plugin.version}</version>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>${pmd-maven-plugin.version}</version>
 				<configuration>
-					<skip>true</skip>
-					<effort>Max</effort>
-					<threshold>Medium</threshold>
-					<failOnError>false</failOnError>
+					<failOnViolation>false</failOnViolation>
+					<printFailingErrors>true</printFailingErrors>
+					<targetJdk>${java.version}</targetJdk>
 					<includeTests>false</includeTests>
-					<xmlOutput>true</xmlOutput>
-					<xmlOutputDirectory>${project.build.directory}</xmlOutputDirectory>
+					<linkXRef>false</linkXRef>
+					<rulesets>
+						<ruleset>/category/java/bestpractices.xml</ruleset>
+						<ruleset>/category/java/errorprone.xml</ruleset>
+						<ruleset>/category/java/security.xml</ruleset>
+					</rulesets>
 				</configuration>
 			</plugin>
 
