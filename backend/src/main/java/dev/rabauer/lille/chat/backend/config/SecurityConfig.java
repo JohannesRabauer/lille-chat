@@ -2,6 +2,7 @@ package dev.rabauer.lille.chat.backend.config;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,6 +44,7 @@ public class SecurityConfig {
   }
 
   @Bean
+  @ConditionalOnMissingBean
   public JwtDecoder jwtDecoder() {
     if (jwkSetUri != null && !jwkSetUri.isBlank()) {
       // Use explicit JWK URI (for Docker where issuer URL differs from JWK fetch URL)
