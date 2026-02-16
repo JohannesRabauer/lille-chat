@@ -121,7 +121,7 @@
 				<configuration>
 					<failOnViolation>false</failOnViolation>
 					<printFailingErrors>true</printFailingErrors>
-					<targetJdk>${java.version}</targetJdk>
+					<!-- Omit targetJdk - PMD doesn't support Java 25 yet, uses source parsing -->
 					<includeTests>false</includeTests>
 					<linkXRef>false</linkXRef>
 					<rulesets>
