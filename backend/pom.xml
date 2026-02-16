@@ -113,11 +113,13 @@
 			</plugin>
 
 			<!-- SpotBugs - Bug detection via bytecode analysis -->
+			<!-- Skipped: SpotBugs does not yet support Java 25 bytecode -->
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
 				<version>${spotbugs-maven-plugin.version}</version>
 				<configuration>
+					<skip>true</skip>
 					<effort>Max</effort>
 					<threshold>Medium</threshold>
 					<failOnError>false</failOnError>
