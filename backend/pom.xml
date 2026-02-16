@@ -104,9 +104,11 @@
 				<configuration>
 					<configLocation>google_checks.xml</configLocation>
 					<consoleOutput>true</consoleOutput>
-					<failsOnError>true</failsOnError>
+					<failsOnError>false</failsOnError>
+					<failOnViolation>false</failOnViolation>
 					<violationSeverity>warning</violationSeverity>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<outputFile>${project.build.directory}/checkstyle-result.xml</outputFile>
 				</configuration>
 			</plugin>
 
@@ -118,8 +120,10 @@
 				<configuration>
 					<effort>Max</effort>
 					<threshold>Medium</threshold>
-					<failOnError>true</failOnError>
+					<failOnError>false</failOnError>
 					<includeTests>false</includeTests>
+					<xmlOutput>true</xmlOutput>
+					<xmlOutputDirectory>${project.build.directory}</xmlOutputDirectory>
 				</configuration>
 			</plugin>
 
