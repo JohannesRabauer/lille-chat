@@ -35,6 +35,7 @@
 		<jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
 		<jacoco.line.coverage>0.60</jacoco.line.coverage>
 		<jacoco.branch.coverage>0.50</jacoco.branch.coverage>
+		<dependency-check-maven.version>12.1.1</dependency-check-maven.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -178,6 +179,20 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<!-- OWASP Dependency-Check - Known vulnerability detection -->
+			<plugin>
+				<groupId>org.owasp</groupId>
+				<artifactId>dependency-check-maven</artifactId>
+				<version>${dependency-check-maven.version}</version>
+				<configuration>
+					<failBuildOnCVSS>11</failBuildOnCVSS>
+					<formats>
+						<format>HTML</format>
+						<format>JSON</format>
+					</formats>
+					<outputDirectory>${project.build.directory}/dependency-check</outputDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
