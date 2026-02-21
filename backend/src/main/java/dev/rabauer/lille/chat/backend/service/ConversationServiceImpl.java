@@ -48,7 +48,7 @@ class ConversationServiceImpl implements ConversationService {
                 .orElseThrow(() -> new NoSuchElementException("User not found: " + userId2));
 
         return conversationRepository.findDirectConversation(ConversationType.DIRECT, user1, user2)
-                .map(c -> toDto(c))
+                .map(this::toDto)
                 .orElseGet(() -> {
                     ConversationEntity conversation = new ConversationEntity();
                     conversation.setType(ConversationType.DIRECT);
