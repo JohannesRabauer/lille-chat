@@ -26,13 +26,16 @@ class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ConversationRepository conversationRepository;
     private final UserRepository userRepository;
+    private final SseService sseService;
 
     ChatMessageServiceImpl(ChatMessageRepository chatMessageRepository,
                            ConversationRepository conversationRepository,
-                           UserRepository userRepository) {
+                           UserRepository userRepository,
+                           SseService sseService) {
         this.chatMessageRepository = chatMessageRepository;
         this.conversationRepository = conversationRepository;
         this.userRepository = userRepository;
+        this.sseService = sseService;
     }
 
     @Override
@@ -61,7 +64,9 @@ class ChatMessageServiceImpl implements ChatMessageService {
         message.setSentAt(Instant.now());
 
         message = chatMessageRepository.save(message);
-        return toDto(message);
+        ChatMessageDto dto = toDto(message);
+        sseService.broadcast(conversationId, dto);
+        return dto;
     }
 
     @Override
