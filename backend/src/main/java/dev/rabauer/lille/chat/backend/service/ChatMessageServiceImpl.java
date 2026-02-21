@@ -25,13 +25,16 @@ public class ChatMessageServiceImpl implements ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ConversationRepository conversationRepository;
     private final UserRepository userRepository;
+    private final SseEmitterService sseEmitterService;
 
     public ChatMessageServiceImpl(ChatMessageRepository chatMessageRepository,
                                   ConversationRepository conversationRepository,
-                                  UserRepository userRepository) {
+                                  UserRepository userRepository,
+                                  SseEmitterService sseEmitterService) {
         this.chatMessageRepository = chatMessageRepository;
         this.conversationRepository = conversationRepository;
         this.userRepository = userRepository;
+        this.sseEmitterService = sseEmitterService;
     }
 
     @Override
@@ -55,7 +58,12 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         message.setContent(request.content());
         message.setSentAt(Instant.now());
 
-        return toDto(chatMessageRepository.save(message));
+        ChatMessageDto dto = toDto(chatMessageRepository.save(message));
+
+        conversation.getParticipants().forEach(participant ->
+                sseEmitterService.sendToUser(participant.getId(), dto));
+
+        return dto;
     }
 
     @Override
