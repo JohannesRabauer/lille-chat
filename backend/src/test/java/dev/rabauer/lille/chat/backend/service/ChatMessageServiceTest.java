@@ -1,6 +1,7 @@
 package dev.rabauer.lille.chat.backend.service;
 
 import dev.rabauer.lille.chat.backend.TestcontainersConfiguration;
+import dev.rabauer.lille.chat.backend.TestSecurityConfig;
 import dev.rabauer.lille.chat.backend.dto.ChatMessageDto;
 import dev.rabauer.lille.chat.backend.dto.ConversationDto;
 import dev.rabauer.lille.chat.backend.dto.FriendshipDto;
@@ -21,7 +22,7 @@ import java.util.UUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@Import(TestcontainersConfiguration.class)
+@Import({TestcontainersConfiguration.class, TestSecurityConfig.class})
 @SpringBootTest
 class ChatMessageServiceTest {
 
